@@ -1,0 +1,42 @@
+
+/**
+ * @file styles.css
+ * @brief CSS stylesheet for a web page with sensor and database data presentation.
+ */
+
+/* Set the font family for the entire page */
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Center-align the text in h1 elements */
+h1 {
+    text-align: center;
+}
+
+/* Style for the sensorData and databaseData div elements */
+#sensorData, #databaseData {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+}
+
+/* Style for the table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+/* Style for table, th, and td elements */
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+/* Style for th and td elements within the table */
+th, td {
+    padding: 10px;
+    text-align: left;
+}

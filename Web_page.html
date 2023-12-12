@@ -1,0 +1,94 @@
+<!-- HTML Code for Web page: -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP8266 Data Visualization</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+</head>
+<body>
+    <h1>Data Visualization</h1>
+    
+    <!-- Container for Sensor Data -->
+    <div id="sensorData">
+        <h2>Sensor Data</h2>
+        <p>Distance: <span id="distance">Loading...</span> cm</p>
+        <p>Status: <span id="status">Loading...</span></p>
+    </div>
+
+    <!-- Container for Database Data -->
+    <div id="databaseData">
+        <h2>Database Data</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody id="databaseTableBody">
+                <!-- Database data will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- JavaScript to update sensor and database data -->
+    <script>
+        /**
+         * @brief Function to update sensor data on the webpage.
+         * @param {Object} data - The sensor data received from the ESP8266.
+         */
+        function updateSensorData(data) {
+            document.getElementById('distance').textContent = data.distance + ' cm';
+            document.getElementById('status').textContent = data.status;
+        }
+
+        /**
+         * @brief Function to fetch sensor data from the ESP8266 and update the webpage.
+         */
+        function fetchData() {
+            fetch('http://your_esp8266_ip_or_hostname/sensor_data_endpoint')
+                .then(response => response.json())
+                .then(data => {
+                    updateSensorData(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching sensor data:', error);
+                });
+        }
+
+        /**
+         * @brief Function to fetch and display database data on the webpage.
+         */
+        function fetchDatabaseData() {
+            fetch('fetch_database_data.php') // Replace with your PHP script
+                .then(response => response.json())
+                .then(data => {
+                    // Clear previous data
+                    document.getElementById('databaseTableBody').innerHTML = '';
+
+                    // Loop through database records and add to the table
+                    data.forEach(record => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${record.id}</td>
+                            <td>${record.name}</td>
+                            <td>${record.value}</td>
+                        `;
+                        document.getElementById('databaseTableBody').appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching database data:', error);
+                });
+        }
+
+        // Periodically update sensor and database data
+        setInterval(fetchData, 2000); // Update sensor data every 2 seconds
+        setInterval(fetchDatabaseData, 5000); // Update database data every 5 seconds
+    </script>
+</body>
+</html>
